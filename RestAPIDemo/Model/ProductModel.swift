@@ -1,15 +1,27 @@
 import Foundation
+import RealmSwift
 
-struct ProductModel: Codable
+class ProductModel: Codable
 {
     let data: [ProductData]
 }
 
-struct ProductData: Codable
+class ProductData: Codable
 {
+    let id: Int
     let name: String
-    let description: String
+    let desc: String
     let image: String
     let price: String
     let discount_amount: String
+    
+    enum CodingKeys: String, CodingKey
+    {
+        case id = "id"
+        case name = "name"
+        case desc = "description"
+        case image = "image"
+        case price = "price"
+        case discount_amount = "discount_amount"
+    }
 }

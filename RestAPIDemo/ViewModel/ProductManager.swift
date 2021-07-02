@@ -1,6 +1,6 @@
 import Foundation
 
-struct ProductManager
+class ProductManager
 {
     func getProductData(completion: @escaping ([ProductData]) -> ())
     {

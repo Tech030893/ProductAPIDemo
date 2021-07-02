@@ -1,4 +1,5 @@
 import UIKit
+import RealmSwift
 
 class HomeViewController: UIViewController
 {
@@ -8,9 +9,12 @@ class HomeViewController: UIViewController
     
     var data = [ProductData]()
     
+    let realm = try! Realm()
+    
     override func viewDidLoad()
     {
         super.viewDidLoad()
+        
         productManager.getProductData { data in
             self.data = data
             DispatchQueue.main.async
@@ -18,6 +22,11 @@ class HomeViewController: UIViewController
                 self.productTableView.reloadData()
             }
         }
+        
+        let product = Product()
+        realm.beginWrite()
+        realm.add(product)
+        try! realm.commitWrite()
     }
 }
 
@@ -35,7 +44,7 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource
         let cell = tableView.dequeueReusableCell(withIdentifier: "APIProductTableViewCell") as! APIProductTableViewCell
         
         cell.productNameLabel.text = data[indexPath.row].name
-        cell.descriptionLabel.text = data[indexPath.row].description
+        cell.descriptionLabel.text = data[indexPath.row].desc
         cell.originalPriceLabel.text = data[indexPath.row].price
         cell.discountPriceLabel.text = data[indexPath.row].discount_amount
         cell.productImageView.load(urlString: data[indexPath.row].image)
